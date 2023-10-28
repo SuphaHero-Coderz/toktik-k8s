@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: process-scheduler
+  name: process-scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: process-scheduler
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/back-office: "true"
+        io.kompose.service: process-scheduler
+    spec:
+      imagePullSecrets:
+        - name: ghcr-login-secret
+      containers:
+        - env:
+            - name: REDIS_QUEUE
+              value: redis
+          image: ghcr.io/suphahero-coderz/toktik-process-scheduler:latest
+          name: process-scheduler
+          resources: {}
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/back-office: "true"
+        io.kompose.network/user-facing: "true"
+        io.kompose.service: backend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-login-secret
+      containers:
+        - env:
+            - name: AWS_ACCESS_KEY
+              value: ${AWS_ACCESS_KEY}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: ${AWS_SECRET_KEY}
+            - name: BUCKET_NAME
+              value: ${BUCKET_NAME}
+            - name: JWT_SECRET
+              value: wizardsecret
+            - name: REDIS_QUEUE
+              value: redis
+          image: ghcr.io/suphahero-coderz/toktik-backend:latest
+          name: backend
+          ports:
+            - containerPort: 80
+          resources: {}
+      restartPolicy: Always
+status: {}

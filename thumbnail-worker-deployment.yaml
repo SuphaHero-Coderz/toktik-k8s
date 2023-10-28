@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: thumbnail-worker
+  name: thumbnail-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: thumbnail-worker
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/back-office: "true"
+        io.kompose.service: thumbnail-worker
+    spec:
+      imagePullSecrets:
+        - name: ghcr-login-secret
+      containers:
+        - env:
+            - name: AWS_ACCESS_KEY
+              value: ${AWS_ACCESS_KEY}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: ${AWS_SECRET_ACCESS_KEY}
+            - name: BUCKET_NAME
+              value: ${BUCKET_NAME}
+            - name: REDIS_QUEUE
+              value: redis
+          image: ghcr.io/suphahero-coderz/toktik-thumbnail-worker:latest
+          name: thumbnail-worker
+          resources: {}
+      restartPolicy: Always
+status: {}
