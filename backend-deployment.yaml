@@ -39,6 +39,12 @@ spec:
               value: wizardsecret
             - name: REDIS_QUEUE
               value: redis
+            - name: CLOUDFRONT_KEY_ID
+              value: ${CLOUDFRONT_KEY_ID}
+            - name: CLOUDFRONT_ORIGIN_URL
+              value: ${CLOUDFRONT_ORIGIN_URL}
+            - name: CLOUDFRONT_PRIVATE_KEY_BASE64
+              value: ${CLOUDFRONT_PRIVATE_KEY_BASE64}
           image: ghcr.io/suphahero-coderz/toktik-backend:latest
           name: backend
           ports:
