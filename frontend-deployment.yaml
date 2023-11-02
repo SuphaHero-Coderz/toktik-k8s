@@ -28,6 +28,9 @@ spec:
         - name: ghcr-login-secret
       containers:
         - image: ghcr.io/suphahero-coderz/toktik-frontend:latest
+          env:
+            - name: WDS_SOCKET_PORT
+              value: '0'
           name: frontend
           ports:
             - containerPort: 3000
