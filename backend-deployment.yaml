@@ -37,6 +37,8 @@ spec:
               value: ${BUCKET_NAME}
             - name: JWT_SECRET
               value: wizardsecret
+            - name: JWT_REFRESH_SECRET
+              value: wizardrefreshsecret
             - name: REDIS_QUEUE
               value: redis
             - name: CLOUDFRONT_KEY_ID
