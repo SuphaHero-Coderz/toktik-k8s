@@ -29,43 +29,14 @@ spec:
         - name: ghcr-login-secret
       containers:
         - env:
-            - name: AWS_ACCESS_KEY
-              valueFrom:
-                configMapKeyRef:
-                  name: environment-config
-                  key: environment.aws_access_key
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                configMapKeyRef:
-                  name: environment-config
-                  key: environment.aws_secret_access_key
-            - name: BUCKET_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: environment-config
-                  key: environment.bucket_name
             - name: JWT_SECRET
               value: wizardsecret
             - name: JWT_REFRESH_SECRET
               value: wizardrefreshsecret
             - name: REDIS_QUEUE
               value: redis
-            - name: CLOUDFRONT_KEY_ID
-              valueFrom:
-                configMapKeyRef:
-                  name: environment-config
-                  key: environment.cloudfront_key_id
-            - name: CLOUDFRONT_ORIGIN_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: environment-config
-                  key: environment.cloudfront_origin_url
-            - name: CLOUDFRONT_PRIVATE_KEY_BASE64
-              valueFrom:
-                configMapKeyRef:
-                  name: environment-config
-                  key: environment.cloudfront_private_key_base64
           image: ghcr.io/suphahero-coderz/toktik-backend:latest
+          imagePullPolicy: Always
           name: backend
           ports:
             - containerPort: 80
