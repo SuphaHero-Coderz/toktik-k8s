@@ -1,0 +1,42 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: backend-ingress
+  namespace: default
+spec:
+  routes:                           
+
+  # Backend.
+  - kind: Rule
+    match: Host(`localhost`) && PathPrefix(`/api/`) 
+    services:                       
+    - kind: Service
+      name: backend
+      namespace: default
+      passHostHeader: true
+      port: 80                     
+      strategy: RoundRobin
+
+  # Frontend.
+  - kind: Rule
+    match: Host(`localhost`)  
+    services:                       
+    - kind: Service
+      name: frontend
+      namespace: default
+      passHostHeader: true
+      port: 3000
+      strategy: RoundRobin
+
+  # Socket
+  - kind: Rule
+    match: Host(`ws.localhost`) 
+    services:                       
+    - kind: Service
+      name: socket
+      namespace: default
+      passHostHeader: true
+      port: 3001                     
+      strategy: RoundRobin
+      sticky:
+         cookie: {}

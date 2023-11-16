@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: socket
+  name: socket
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: socket
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/back-office: "true"
+        io.kompose.network/user-facing: "true"
+        io.kompose.service: socket
+    spec:
+      imagePullSecrets:
+        - name: ghcr-login-secret
+      containers:
+        - image: ghcr.io/suphahero-coderz/toktik-socket.io:latest
+          imagePullPolicy: Always
+          name: socket
+          ports:
+            - containerPort: 3001
+          resources: {}
+      restartPolicy: Always
+status: {}
