@@ -39,4 +39,6 @@ spec:
       port: 3001                     
       strategy: RoundRobin
       sticky:
-         cookie: {}
+          cookie:
+            name: refresh_token
+            httpOnly: true
